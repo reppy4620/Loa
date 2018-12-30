@@ -1,0 +1,139 @@
+<!doctype html>
+<html class="no-js" lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>PainTorch</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+        <style>
+            body {
+                padding-top: 50px;
+                padding-bottom: 20px;
+            }
+            div#loading {
+                display: none;
+            }
+        </style>
+        <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+        <script src="/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/master/dist/progressbar.js"></script>
+        <script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/master/dist/progressbar.min.js"></script>
+    </head>
+    <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">PainTorch</a>
+        </div>
+      </div>
+    </nav>
+
+    <div id="loading">
+        <h1>Please wait...</h1>
+    </div>
+    <div id="content">
+      <div class="jumbotron">
+      <div class="container">
+        <h1>Welcome</h1>
+        <p>Paintorch is affected by PaintsChainer.</p>
+          <div class="col-sm-4">
+            <form action="upload" method="post" enctype="multipart/form-data">
+              <label><input type="checkbox" class="mode" name="md" value="l2c" checked="checked"/>Line to Color</label>
+              <label><input type="checkbox" class="mode" name="md" value="c2l"/>Color to Line</label>
+              <div class="input-group">
+                <label class="input-group-btn">
+                  <span class="btn btn-primary">
+                      Choose File<input id="myImage" type="file" name="file" style="display:none" class="uploadFile">
+                  </span>
+                </label>
+              </div><br>
+              <p><button type="submit" class="btn btn-default btn-lg" onclick="loading();">Submit &raquo</button></p>
+              <div id="res"></div>
+            </form>
+            <div style="display: inline-block;
+             min-width: 200px;
+              min-height: 200px;
+               border: 5px dashed rgb(238, 238, 238);
+                padding: 10px;
+                 --darkreader-inline-border-top:#47443f;
+                  --darkreader-inline-border-right:#47443f; --darkreader-inline-border-bottom:#47443f;
+                   --darkreader-inline-border-left:#47443f;"
+                 data-darkreader-inline-border-top="" data-darkreader-inline-border-right=""
+                 data-darkreader-inline-border-bottom="" data-darkreader-inline-border-left="">
+              <img id="preview">
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h2>Contact Author</h2>
+          <p>Twitter : Sync @ilikeniku1   <a class="btn btn-link" href="#" role="button" onclick="location.href='https://twitter.com/ilikeniku1'">Jump Twitter &raquo;</a></p>
+          <p>GitHub  : reppy @reppy4620    <a class="btn btn-link" href="#" role="button" onclick="location.href='https://github.com/reppy4620'">Jump GitHub &raquo;</a></p>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; Sync 2018</p>
+      </footer>
+    </div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+
+    <script src="/js/vendor/bootstrap.min.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+    </script>
+    <script type="text/javascript">
+        jQuery(function($){
+            $(function(){
+                $('.mode').on('click', function() {
+                    if ($(this).prop('checked')){
+                        $('.mode').prop('checked', false);
+                        $(this).prop('checked', true);
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $('#myImage').on('change', function (e) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#preview").attr('src', e.target.result);
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        });
+    </script>
+    <script>
+        function sample() {
+            document.getElementById("res").innerText = "Please Wait..."
+        }
+    </script>
+    <script type="text/javascript">// <![CDATA[
+        function loading(){
+            {#document.getElementById("loading").style.display = "none";#}
+            {#document.getElementById("content").style.display = "block";#}
+            $("#loading").show();
+            $("#content").hide();
+        }
+// ]]></script>
+    </body>
+</html>
