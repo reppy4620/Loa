@@ -6,15 +6,15 @@ import os
 import processing
 import torch
 
-
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads/'
-app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'JPG'}
-
 # device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 device = torch.device('cpu')
 net = UNet(norm=NormType.Batch).to(device)
 net.load_state_dict(torch.load('D:/Pix2Pix/Models/best.pth')['netG'])
+
+
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'uploads/'
+app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'JPG'}
 
 
 def allowed_file(filename):

@@ -76,7 +76,17 @@ class Out(nn.Module):
 
     def __init__(self, in_nc, out_nc, ks=3, s=1, p=1, norm=NormType.Group):
         super(Out, self).__init__()
-        self.down = Down(in_nc, out_nc, ks, s, p, leaky=False, norm=norm, n_group=1)
+        if norm == NormType.Instance:
+            norm_layer = nn.InstanceNorm2d(out_nc)
+        elif norm == NormType.Group:
+            norm_layer = nn.GroupNorm(32, out_nc)
+        else:
+            norm_layer = nn.BatchNorm2d(out_nc)
+        self.down = nn.Sequential(
+            nn.Conv2d(in_nc, out_nc, ks, s, p),
+            norm_layer,
+            nn.Tanh()
+        )
 
     def forward(self, x1, x2):
         diff_y = x2.size()[2] - x1.size()[2]
@@ -105,6 +115,8 @@ class UNet(nn.Module):
         self.up3 = Up(ngf*8, norm=norm)
         self.up4 = Up(ngf*4, norm=norm)
         self.out = Out(ngf*2, out_channel, norm=norm)
+
+        self.load_state_dict(torch.load('D:/Pix2Pix/Models/best.pth')['netG'])
 
     def forward(self, x):
         x1 = self.in_layer(x)
