@@ -1,15 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from werkzeug import secure_filename
-from network import UNet, NormType
+from network import UNet
 
 import os
 import processing
 import torch
 
-# device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
 device = torch.device('cpu')
-net = UNet(norm=NormType.Batch).to(device)
-net.load_state_dict(torch.load('D:/Pix2Pix/Models/best.pth')['netG'])
+net = UNet().eval().to(device)
+# FIXME please change model path
+net.load_state_dict(torch.load('path/to/model.pth'))
 
 
 app = Flask(__name__)
@@ -37,7 +38,9 @@ def upload():
         if mode == 'l2c':
             processing.line2color(filename, net, device)
         elif mode == 'c2l':
-            processing.color_to_line(filename)
+            processing.color2line(filename)
+        elif mode == 'c2c':
+            processing.color2color(filename, net, device)
         else:
             raise ValueError("mode is invalid value.")
         return redirect(url_for('uploaded_file',
