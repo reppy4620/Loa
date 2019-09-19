@@ -44,6 +44,7 @@ class Up(nn.Module):
         )
 
     def forward(self, x1, x2):
+        # if x1.size is not equal to x2.size, padding small image.
         diff_y = x2.size()[2] - x1.size()[2]
         diff_x = x2.size()[3] - x1.size()[3]
         x1 = F.pad(x1, [diff_x//2, diff_x - diff_x//2,

@@ -7,7 +7,12 @@ import processing
 import torch
 
 
-device = torch.device('cpu')
+if not os.path.isdir('uploads'):
+    os.mkdir('uploads')
+
+cuda = True
+
+device = torch.device('cuda' if cuda else 'cpu')
 net = UNet().eval().to(device)
 # FIXME please change model path
 net.load_state_dict(torch.load('path/to/model.pth'))

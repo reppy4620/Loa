@@ -9,11 +9,7 @@ import torchvision.utils as vutils
 from PIL import Image
 
 
-transforms = T.Compose([
-    T.ToTensor(),
-    T.Normalize((0.5, 0.5, 0.5),
-                (0.5, 0.5, 0.5))
-])
+to_tensor = T.ToTensor()
 
 
 def color2line(file_name):
@@ -33,7 +29,7 @@ def color2line(file_name):
 def line2color(file_name, net, device):
     path = os.path.join('uploads', file_name)
     img = Image.open(path).convert('L')
-    img = transforms(img).unsqueeze(0).to(device)
+    img = to_tensor(img).unsqueeze(0).to(device)
     with torch.no_grad():
         color = net(img)
     vutils.save_image(
@@ -45,7 +41,7 @@ def line2color(file_name, net, device):
 
 def color2color(file_name, net, device):
     img = color2line(file_name)
-    img = transforms(img).unsqueeze(0).to(device)
+    img = to_tensor(img).unsqueeze(0).to(device)
     with torch.no_grad():
         color = net(img)
     vutils.save_image(
